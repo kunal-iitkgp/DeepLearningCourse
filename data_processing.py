@@ -15,51 +15,61 @@ for i in xrange(0,13):
 				c+=1
 print "number of non zero voxels calculated from the mask= %d" %c
 
+x_train = np.zeros((380,137,569))
+y_train = np.zeros((95))
 
 labels = scipy.io.loadmat('FinalSubjectsList.mat')
-#print labels['IDs380'][0][0]
+y_train = labels['Labels'].reshape((95))
 
-for i in xrange(88):
+for i in xrange(95):
 	sample = np.array_str(labels['IDs380'][i][0])
 	sample = '../data/' + sample[3:-2] +'_0003_AO_1.nii.gz'
+	img = nib.load(sample)
 	#print sample
-	try:
-		img = nib.load(sample)
-	except Exception, e:
-		continue
 	img_data = img.get_data()
-	print "4D shape = %s" % str(img_data.shape)
-for i in xrange(88):
-	sample = np.array_str(labels['IDs380'][i][0])
-	sample = '../data/' + sample[3:-2] +'_0003_AO_2.nii.gz'
-	#print sample
-	try:
-		img = nib.load(sample)
-	except Exception, e:
-		continue
-	img_data = img.get_data()
-	print "4D shape = %s" % str(img_data.shape)
+	#print "4D shape = %s" % str(img_data.shape)
+	for time in xrange(137):
+		for voxel in xrange(len(index)):
+			x,y,z = index[voxel]
+			x_train[i][time][voxel] = img_data[x][y][z][time]
+			
+	# try:
+	# 	img = nib.load(sample)
+	# except Exception, e:
+	# 	continue
+	# img_data = img.get_data()
+	# print "4D shape = %s" % str(img_data.shape)
+# for i in xrange(88):
+# 	sample = np.array_str(labels['IDs380'][i][0])
+# 	sample = '../data/' + sample[3:-2] +'_0003_AO_2.nii.gz'
+# 	#print sample
+# 	try:
+# 		img = nib.load(sample)
+# 	except Exception, e:
+# 		continue
+# 	img_data = img.get_data()
+# 	print "4D shape = %s" % str(img_data.shape)
 
-for i in xrange(88):
-	sample = np.array_str(labels['IDs380'][i][0])
-	sample = '../data/' + sample[3:-2] +'_0003_AO_3.nii.gz'
-	#print sample
-	try:
-		img = nib.load(sample)
-	except Exception, e:
-		continue
-	img_data = img.get_data()
-	print "4D shape = %s" % str(img_data.shape)
-for i in xrange(88):
-	sample = np.array_str(labels['IDs380'][i][0])
-	sample = '../data/' + sample[3:-2] +'_0003_AO_4.nii.gz'
-	#print sample
-	try:
-		img = nib.load(sample)
-	except Exception, e:
-		continue
-	img_data = img.get_data()
-	print "4D shape = %s" % str(img_data.shape)
+# for i in xrange(88):
+# 	sample = np.array_str(labels['IDs380'][i][0])
+# 	sample = '../data/' + sample[3:-2] +'_0003_AO_3.nii.gz'
+# 	#print sample
+# 	try:
+# 		img = nib.load(sample)
+# 	except Exception, e:
+# 		continue
+# 	img_data = img.get_data()
+# 	print "4D shape = %s" % str(img_data.shape)
+# for i in xrange(88):
+# 	sample = np.array_str(labels['IDs380'][i][0])
+# 	sample = '../data/' + sample[3:-2] +'_0003_AO_4.nii.gz'
+# 	#print sample
+# 	try:
+# 		img = nib.load(sample)
+# 	except Exception, e:
+# 		continue
+# 	img_data = img.get_data()
+# 	print "4D shape = %s" % str(img_data.shape)
 
 # x = random.randint(0,136)
 # print "x=%d" %x
